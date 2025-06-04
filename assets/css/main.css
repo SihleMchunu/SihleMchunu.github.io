@@ -72,44 +72,44 @@ input, select, textarea {
 	appearance: none;
 }
 
-/* ========== Dark Mode & Photo Palette Integration ========== */
+/* ========== Dynamic Vibrant Palette ========== */
 
 :root {
-  /* Typography & Layout */
+  /* Typography */
   --font-main: "Lato", sans-serif;
   --font-mono: "Source Code Pro", monospace;
 
-  /* Color Palette Inspired by Image */
-  --golden-hour: #FBB03B;
-  --shadow-bark: #2E1F14;
-  --rooted-earth: #5C4A33;
-  --muted-sky: #B9C4C2;
-  --cool-steel: #586C74;
-  --citrus-light: #FFD87F;
-  --ink-black: #0F0F0F;
-  --cream-tie: #F7EBD0;
+  /* Vibrant Dynamic Color Palette */
+  --electric-violet: #7F00FF;
+  --neon-cyan: #00F9FF;
+  --sunset-orange: #FF5E5B;
+  --lemon-zest: #FFC914;
+  --minty-green: #3DF0A5;
+  --deep-sky: #007BFF;
+  --night-black: #0D0D0D;
+  --snow-white: #F9F9F9;
 
   /* Light Theme Defaults */
-  --bg: #fff;
-  --text-color: var(--cool-steel);
-  --heading-color: var(--rooted-earth);
-  --link-hover: var(--golden-hour);
-  --border-color: var(--muted-sky);
-  --hr-color: var(--citrus-light);
-  --code-bg: var(--shadow-bark);
+  --bg: var(--snow-white);
+  --text-color: #444;
+  --heading-color: var(--electric-violet);
+  --link-hover: var(--sunset-orange);
+  --border-color: #ddd;
+  --hr-color: var(--lemon-zest);
+  --code-bg: var(--deep-sky);
   --code-color: #fff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: var(--ink-black);
-    --text-color: var(--muted-sky);
-    --heading-color: var(--citrus-light);
-    --link-hover: var(--golden-hour);
-    --border-color: var(--cool-steel);
-    --hr-color: var(--cool-steel);
-    --code-bg: var(--rooted-earth);
-    --code-color: var(--cream-tie);
+    --bg: var(--night-black);
+    --text-color: var(--neon-cyan);
+    --heading-color: var(--lemon-zest);
+    --link-hover: var(--minty-green);
+    --border-color: var(--minty-green);
+    --hr-color: var(--electric-violet);
+    --code-bg: var(--electric-violet);
+    --code-color: var(--neon-cyan);
   }
 }
 
