@@ -80,14 +80,14 @@ input, select, textarea {
   --font-mono: "Source Code Pro", monospace;
 
   /* Vibrant Dynamic Color Palette */
-  --electric-violet: #7F00FF;
-  --neon-cyan: #00F9FF;
-  --sunset-orange: #FF5E5B;
-  --lemon-zest: #FFC914;
-  --minty-green: #3DF0A5;
-  --deep-sky: #007BFF;
-  --night-black: #0D0D0D;
-  --snow-white: #F9F9F9;
+  --electric-violet: #c800ff;
+  --neon-cyan: #00d0ff;
+  --sunset-orange: #ff665b;
+  --lemon-zest: #ffb514;
+  --minty-green: #3df0a5cf;
+  --deep-sky: #0048ff;
+  --night-black: #0d0d0d;
+  --snow-white: #f9f9f9ee;
 
   /* Light Theme Defaults */
   --bg: var(--snow-white);
