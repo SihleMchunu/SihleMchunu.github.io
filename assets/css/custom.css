@@ -1,207 +1,158 @@
-/* Basic Reset */
-body, h1, h2, h3, h4, h5, h6, p, ul, li, section, div, img {
-  margin: 0;
-  padding: 0;
+/* ========== Dynamic Vibrant Palette ========== */
+
+:root {
+  /* Typography */
+  --font-main: "Lato", sans-serif;
+  --font-mono: "Source Code Pro", monospace;
+
+  /* Vibrant Dynamic Color Palette */
+  --electric-violet: #7F00FF;
+  --neon-cyan: #00F9FF;
+  --sunset-orange: #FF5E5B;
+  --lemon-zest: #FFC914;
+  --minty-green: #3DF0A5;
+  --deep-sky: #007BFF;
+  --night-black: #0D0D0D;
+  --snow-white: #F9F9F9;
+
+  /* Light Theme Defaults */
+  --bg: var(--snow-white);
+  --text-color: #444;
+  --heading-color: var(--electric-violet);
+  --link-hover: var(--sunset-orange);
+  --border-color: #ddd;
+  --hr-color: var(--lemon-zest);
+  --code-bg: var(--deep-sky);
+  --code-color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: var(--night-black);
+    --text-color: var(--neon-cyan);
+    --heading-color: var(--lemon-zest);
+    --link-hover: var(--minty-green);
+    --border-color: var(--minty-green);
+    --hr-color: var(--electric-violet);
+    --code-bg: var(--electric-violet);
+    --code-color: var(--neon-cyan);
+  }
+}
+
+html {
   box-sizing: border-box;
 }
 
-/* Body and Wrapper */
+:where(*, *::before, *::after) {
+  box-sizing: inherit;
+}
+
 body {
-  font-family: 'Lato', Arial, sans-serif;
-  background: #f7f7f7;
-  color: #333;
+  background: var(--bg);
+  color: var(--text-color);
+  font-family: var(--font-main);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.75;
 }
 
-#wrapper {
-  margin-left: 0;
-  margin-right: 0;
-  padding: 0;
+body.is-preload :where(*, *::before, *::after) {
+  animation: none !important;
+  transition: none !important;
 }
 
-/* Header Section */
-#header {
-  background: #3773c8;
-  color: #fff;
-  padding: 2em 1em;
-  text-align: center;
-}
-
-#header .avatar img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  border: 4px solid #fff;
-  margin-bottom: 1em;
-}
-
-#header h1 {
-  font-size: 2em;
-  margin-bottom: 0.5em;
-}
-
-#header p {
-  font-size: 1.1em;
-  color: #d2f2e9;
-}
-
-#header nav ul {
-  list-style: none;
-  margin: 1.5em 0;
-  padding: 0;
-}
-
-#header nav ul li {
-  display: inline-block;
-  margin: 0 0.5em;
-}
-
-#header nav ul li a {
-  color: #fff;
+a {
+  color: inherit;
+  border-bottom: 1px solid var(--border-color);
   text-decoration: none;
-  font-weight: bold;
-  padding: 0.5em 1em;
-  border-radius: 3px;
-  transition: background 0.2s;
+  transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 
-#header nav ul li a.active,
-#header nav ul li a:hover {
-  background: #01a6e8;
-  color: #fff;
+a:hover {
+  border-bottom-color: transparent;
+  color: var(--link-hover) !important;
 }
 
-#header .icons {
-  margin-top: 1em;
+strong, b {
+  color: var(--heading-color);
+  font-weight: 700;
 }
 
-#header .icons li {
-  display: inline-block;
-  margin: 0 0.3em;
+em, i {
+  font-style: italic;
 }
 
-#header .icons a {
-  color: #b7eadc;
-  font-size: 1.3em;
-  transition: color 0.2s;
+p {
+  margin-bottom: 2.25em;
 }
 
-#header .icons a:hover {
-  color: #fff;
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading-color);
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.5625em;
 }
 
-/* Main Section */
-#main {
-  max-width: 900px;
-  margin: 2em auto;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-  padding: 2em;
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  color: inherit;
+  text-decoration: none;
+  border: none;
 }
 
-.image.main img {
-  width: 100%;
-  border-radius: 8px 8px 0 0;
-  max-height: 300px;
-  object-fit: cover;
+h2 { font-size: 2em; line-height: 1.5; }
+h3 { font-size: 1.75em; line-height: 1.5; }
+h4 { font-size: 1.25em; line-height: 1.5; }
+h5 { font-size: 0.9em; line-height: 1.5; }
+h6 { font-size: 0.7em; line-height: 1.5; }
+
+sub, sup {
+  font-size: 0.8em;
+  position: relative;
 }
 
-.container {
-  padding: 2em 1em;
+sub { top: 0.5em; }
+sup { top: -0.5em; }
+
+hr {
+  border: 0;
+  border-bottom: 2px solid var(--hr-color);
+  margin: 2.25em 0;
 }
 
-header.major h2 {
-  color: #01a6e8;
-  font-size: 2.5em;
-  margin-bottom: 0.5em;
+hr.major {
+  margin: 3.375em 0;
 }
 
-header.major p {
-  color: #888;
-  font-size: 1.2em;
-  margin-bottom: 1.5em;
+blockquote {
+  border-left: 8px solid var(--border-color);
+  font-style: italic;
+  margin-bottom: 2.25em;
+  padding-left: 2em;
 }
 
-section {
-  margin-bottom: 2em;
-}
-
-/* Feature Icons */
-.feature-icons {
-  list-style: none;
-  padding: 0;
-  margin: 2em 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1em;
-}
-
-.feature-icons li {
-  flex: 1 1 220px;
-  background: #f4f8fb;
-  color: #3773c8;
+code {
+  background: var(--code-bg);
   border-radius: 5px;
-  padding: 1em;
-  font-size: 1.1em;
-  display: flex;
-  align-items: center;
-  gap: 0.7em;
+  color: var(--code-color);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.25em 0.65em;
 }
 
-.feature-icons .icon {
-  font-size: 1.5em;
-  color: #01a6e8;
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  margin-bottom: 2.25em;
 }
 
-/* Projects Section */
-.features {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2em;
+pre code {
+  display: block;
+  overflow-x: auto;
+  padding: 1em 1.5em;
+  line-height: 1.5;
+  -webkit-overflow-scrolling: touch;
 }
 
-.features article {
-  background: #f4f8fb;
-  border-radius: 8px;
-  flex: 1 1 260px;
-  min-width: 220px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.features .image img {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-}
-
-.features .inner {
-  padding: 1em;
-}
-
-.features h4 {
-  color: #3773c8;
-  margin-bottom: 0.5em;
-}
-
-.features p {
-  color: #555;
-  font-size: 1em;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  #main {
-    padding: 1em;
-  }
-  .features {
-    flex-direction: column;
-    gap: 1em;
-  }
-  .feature-icons {
-    flex-direction: column;
-    gap: 0.5em;
-  }
-}
+.align-left { text-align: left; }
+.align-center { text-align: center; }
+.align-right { text-align: right; }
