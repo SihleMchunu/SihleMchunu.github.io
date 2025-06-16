@@ -68,10 +68,44 @@ a {
   transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 
-a:hover {
-  border-bottom-color: transparent;
-  color: var(--link-hover) !important;
+/* === Navigation Links === */
+#header nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.5em 1em;
+  border-radius: 3px;
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
+
+/* Add animated underline */
+#header nav ul li a::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  width: 0;
+  height: 2px;
+  background: #01a6e8;
+  transition: width 0.3s ease, left 0.3s ease;
+  transform: translateX(-50%);
+}
+
+/* Hover and Active State */
+#header nav ul li a:hover,
+#header nav ul li a.active {
+  color: #01a6e8;
+  transform: scale(1.05);
+}
+
+/* Animate underline on hover */
+#header nav ul li a:hover::after,
+#header nav ul li a.active::after {
+  width: 60%;
+}
+
 
 strong, b {
   color: var(--heading-color);
