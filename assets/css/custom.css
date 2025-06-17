@@ -102,6 +102,8 @@ body.is-preload :where(*, *::before, *::after) {
 }
 
 
+
+
 strong, b {
   color: var(--heading-color);
   font-weight: 700;
@@ -185,3 +187,49 @@ pre code {
 .align-left { text-align: left; }
 .align-center { text-align: center; }
 .align-right { text-align: right; }
+.align-justify { text-align: justify; }
+/* === Skills Section === */
+#skills {
+  max-width: 800px;
+  margin: 2em auto;
+  padding: 1em;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  text-align: center;
+}
+
+#skills h2 {
+  font-size: 2em;
+  margin-bottom: 1em;
+  color: #3773c8;
+}
+
+.skill {
+  margin-bottom: 1.5em;
+  text-align: left;
+}
+
+.skill p {
+  margin-bottom: 0.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+.progress-bar {
+  background: #eee;
+  border-radius: 25px;
+  overflow: hidden;
+  height: 20px;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, #01a6e8, #3773c8);
+  color: white;
+  font-size: 0.9em;
+  line-height: 20px;
+  padding-left: 8px;
+  border-radius: 25px 0 0 25px;
+  transition: width 1s ease-in-out;
+}
