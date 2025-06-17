@@ -231,5 +231,7 @@ pre code {
   line-height: 20px;
   padding-left: 8px;
   border-radius: 25px 0 0 25px;
+  width: 0;
   transition: width 1s ease-in-out;
 }
+
