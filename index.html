@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sihle Mchunu — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --xp-blue:     #30086b;
+      --xp-blue-mid: #1f5bbf;
+      --xp-blue-lt:  #4a90d9;
+      --xp-titlebar: linear-gradient(180deg,#4a90e2 0%,#1a5bbf 40%,#0a3a9a 100%);
+      --xp-taskbar:  linear-gradient(180deg,#1f5bbf 0%,#0a246a 100%);
+      --pill-bg:     linear-gradient(180deg,#ffffff 0%,#d8eaff 40%,#90bef0 100%);
+      --pill-hover:  linear-gradient(180deg,#ffffff 0%,#e8f2ff 40%,#a8cef8 100%);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #ec5de0;
+      background-image:
+        radial-gradient(ellipse at 15% 25%, rgba(255,255,255,0.6) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 75%, rgba(100,160,230,0.3) 0%, transparent 50%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: #1a1a2e;
+      overflow-x: hidden;
+      /* IMPORTANT: give space for fixed taskbar */
+      padding-bottom: 50px;
+    }
+
+    /* ── SPARKLES ── */
+    .sparkle-field { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .sp {
+      position: absolute;
+      clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+      opacity: 0;
+      animation: sp-anim var(--dur,3s) ease-in-out var(--del,0s) infinite;
+    }
+    @keyframes sp-anim {
+      0%,100% { opacity:0; transform:scale(0.4) rotate(0deg); }
+      50%      { opacity:1; transform:scale(1.3) rotate(180deg); }
+    }
+
+    /* ── TASKBAR ── */
+    .taskbar {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 42px;
+      background: var(--xp-taskbar);
+      border-top: 2px solid #5aafff;
+      display: flex; align-items: center; padding: 0 8px; gap: 6px;
+      z-index: 9000;
+      box-shadow: 0 -2px 10px rgba(0,0,60,0.5);
+    }
+    .start-btn {
+      background: linear-gradient(180deg,#5acd5a 0%,#2a9a2a 55%,#1a7a1a 100%);
+      border: 1px solid #1a5a1a; border-radius: 12px;
+      padding: 3px 14px 3px 8px;
+      display: flex; align-items: center; gap: 5px;
+      cursor: pointer; color: white;
+      font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 0.85rem;
+      box-shadow: inset 0 1px rgba(255,255,255,0.45), 0 1px 4px rgba(0,0,0,0.4);
+      user-select: none;
+    }
+    .start-icon {
+      width: 18px; height: 18px;
+      background: radial-gradient(circle at 40% 35%,#ffdd44,#ff8800,#cc4400);
+      border-radius: 3px;
+    }
+    .tb-icons { display: flex; gap: 4px; align-items: center; }
+    .tb-icon {
+      width: 24px; height: 24px; background: rgba(255,255,255,0.12);
+      border-radius: 3px; display: flex; align-items: center; justify-content: center;
+      font-size: 13px; cursor: pointer; transition: background 0.15s;
+    }
+    .tb-icon:hover { background: rgba(255,255,255,0.25); }
+    .taskbar-clock {
+      margin-left: auto; background: rgba(0,0,80,0.3);
+      border: 1px solid rgba(100,160,255,0.3);
+      padding: 2px 10px; border-radius: 3px;
+      color: white; font-size: 0.72rem; font-weight: 700;
+    }
+
+    /* ── XP WINDOW SHELL ── */
+    .xp-window {
+      background: #ece9d8;
+      border: 2px solid #300a6a;
+      border-radius: 8px 8px 4px 4px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.85), 4px 4px 0 rgba(0,0,80,0.2), 8px 8px 0 rgba(0,0,80,0.08);
+    }
+    .xp-titlebar {
+      background: var(--xp-titlebar);
+      border-radius: 6px 6px 0 0;
+      padding: 5px 8px;
+      display: flex; align-items: center; gap: 6px;
+      user-select: none;
+    }
+    .xp-title-icon { font-size: 14px; }
+    .xp-title-text {
+      font-family: 'Nunito', sans-serif; font-size: 0.78rem; font-weight: 800;
+      color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); flex: 1;
+    }
+    .xp-win-btns { display: flex; gap: 3px; }
+    .xp-wb {
+      width: 21px; height: 19px; border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 900; cursor: pointer; color: white;
+    }
+    .xp-wb.min, .xp-wb.max { background: linear-gradient(180deg,#7ab8ff,#4a80d0); }
+    .xp-wb.cls { background: linear-gradient(180deg,#ff7070,#cc2020); }
+    .xp-wb.sm  { width: 17px; height: 15px; font-size: 9px; }
+
+    .xp-addrbar {
+      background: white; border-bottom: 2px solid #c0c0c0;
+      padding: 4px 10px; display: flex; align-items: center; gap: 8px;
+    }
+    .xp-addr-lbl { font-size: 0.68rem; color: #555; font-weight: 700; white-space: nowrap; }
+    .xp-addr-input {
+      flex: 1; background: white; border: 2px inset #a0a0a0;
+      padding: 2px 6px; font-size: 0.7rem; color: #0a246a; outline: none;
+      font-family: 'Nunito', sans-serif;
+    }
+    .xp-addr-go {
+      background: var(--pill-bg); border: 1px solid #5a90d0; border-radius: 10px;
+      padding: 2px 10px; font-size: 0.65rem; font-weight: 800; color: var(--xp-blue); cursor: pointer;
+    }
+    .xp-body {
+      padding: 24px 28px;
+      background: linear-gradient(160deg,#f2f7ff,#eaf1fa);
+      border-radius: 0 0 4px 4px;
+    }
+
+    /* ── PILL BUTTON ── */
+    .pill-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--pill-bg);
+      border: 1.5px solid rgba(70,130,210,0.75); border-radius: 22px;
+      padding: 7px 20px;
+      font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.8rem;
+      color: var(--xp-blue); cursor: pointer; text-decoration: none;
+      box-shadow: inset 0 1px rgba(255,255,255,0.95), 0 2px 7px rgba(0,0,80,0.2);
+      transition: all 0.15s; position: relative; overflow: hidden;
+    }
+    .pill-btn::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%;
+      background: rgba(255,255,255,0.38); border-radius: 22px 22px 0 0; pointer-events: none;
+    }
+    .pill-btn:hover { background: var(--pill-hover); transform: translateY(-1px); box-shadow: inset 0 1px rgba(255,255,255,0.95), 0 4px 12px rgba(0,0,80,0.28); }
+    .pill-btn:active { transform: translateY(1px); }
+    .pill-btn.sm { font-size: 0.7rem; padding: 5px 14px; }
+
+    /* ── SECTION WRAPPER ── */
+    .xp-section { max-width: 880px; margin: 36px auto; padding: 0 20px; }
+
+    .sec-tbar {
+      background: var(--xp-titlebar);
+      padding: 5px 10px; display: flex; align-items: center; gap: 6px;
+    }
+    .sec-tbar-icon { font-size: 13px; }
+    .sec-tbar-text {
+      font-family: 'Nunito', sans-serif; font-size: 0.75rem; font-weight: 800;
+      color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.55); flex: 1;
+    }
+    .sec-body {
+      padding: 24px;
+      background: linear-gradient(160deg,#f2f7ff,#eaf1fa);
+    }
+    .sec-heading {
+      font-family: 'Righteous', cursive;
+      font-size: clamp(1.5rem,3.5vw,2.2rem);
+      background: linear-gradient(135deg,#1a3a7a 0%,#3a70cc 20%,#7ab0f0 38%,#ffffff 50%,#4a80d0 65%,#1a3a7a 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      filter: drop-shadow(0 1px 3px rgba(0,0,80,0.3));
+      margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+    }
+    .sec-badge {
+      font-family: 'Nunito', sans-serif; font-size: 0.6rem; font-weight: 800;
+      background: var(--pill-bg); border: 1px solid rgba(80,140,220,0.55);
+      border-radius: 10px; padding: 2px 8px; color: var(--xp-blue);
+      -webkit-text-fill-color: var(--xp-blue);
+      box-shadow: inset 0 1px rgba(255,255,255,0.75);
+    }
+
+    /* ── HERO ── */
+    #home {
+      position: relative; min-height: 100vh;
+      padding: 24px 24px 64px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 1;
+    }
+    .desktop-icons {
+      position: absolute; top: 20px; left: 20px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .d-icon {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      cursor: pointer; width: 66px;
+    }
+    .d-icon-img {
+      width: 42px; height: 42px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      filter: drop-shadow(0 2px 5px rgba(0,0,100,0.45));
+      transition: transform 0.15s;
+    }
+    .d-icon:hover .d-icon-img { transform: scale(1.1); }
+    .d-icon-label {
+      font-size: 0.63rem; color: white; text-align: center;
+      text-shadow: 1px 1px 2px #000, 0 0 8px rgba(0,0,200,0.8);
+      font-weight: 800; line-height: 1.2;
+    }
+    .sticker {
+      position: absolute; pointer-events: none; z-index: 20; user-select: none;
+      animation: float-s 4s ease-in-out var(--del,0s) infinite;
+    }
+    @keyframes float-s {
+      0%,100% { transform: translateY(0) rotate(var(--rot,0deg)) scale(1); }
+      50%      { transform: translateY(-9px) rotate(var(--rot,0deg)) scale(1.08); }
+    }
+
+    .hero-inner { display: grid; grid-template-columns: 210px 1fr; gap: 24px; align-items: start; }
+
+    .hero-photo-panel {
+      background: white; border: 2px solid #a0b8d8; border-radius: 6px;
+      padding: 10px;
+      box-shadow: inset 0 1px 3px rgba(0,0,80,0.1), 2px 2px 8px rgba(0,0,80,0.18);
+    }
+    .hero-photo-panel img {
+      width: 100%; border-radius: 4px; display: block;
+      min-height: 180px; object-fit: cover;
+      background: linear-gradient(135deg,#c8ddf8,#85b4ee);
+    }
+    .photo-cap { text-align: center; font-size: 0.62rem; color: #0a246a; margin-top: 6px; font-weight: 800; }
+    .online-badge { display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: 5px; }
+    .online-dot {
+      width: 8px; height: 8px; background: #22cc22; border-radius: 50%;
+      box-shadow: 0 0 7px #22cc22; animation: pdot 1.5s ease-in-out infinite;
+    }
+    @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.35} }
+    .online-txt { font-size: 0.62rem; color: #1a7a1a; font-weight: 800; }
+
+    .hero-text { display: flex; flex-direction: column; gap: 10px; }
+    .subtitle-pill {
+      display: inline-flex; align-items: center;
+      background: var(--pill-bg); border: 1.5px solid rgba(255,255,255,0.8); border-radius: 20px;
+      padding: 4px 14px; font-size: 0.8rem; font-weight: 800; color: var(--xp-blue);
+      box-shadow: inset 0 1px rgba(255,255,255,0.8), 0 2px 5px rgba(0,0,80,0.18);
+      width: fit-content;
+    }
+    .chrome-h {
+      font-family: 'Righteous', cursive;
+      font-size: clamp(2rem,5vw,3.3rem);
+      background: linear-gradient(135deg,
+        #1a3a7a 0%, #3a70cc 18%, #7ab0f0 32%,
+        #ffffff 45%, #4a80d0 58%, #1a3a7a 75%, #5a90e0 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      filter: drop-shadow(0 2px 6px rgba(0,0,80,0.35));
+      line-height: 1.1;
+    }
+    .hero-desc-box {
+      background: rgba(255,255,255,0.72); border: 1px solid #b0c8e8; border-radius: 6px;
+      padding: 10px 14px; font-size: 0.83rem; line-height: 1.75; color: #1a2a4a;
+    }
+    .hero-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 2px; }
+    .hero-socials { display: flex; gap: 8px; flex-wrap: wrap; }
+    .social-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,0.6); border: 1px solid #a0bcd8; border-radius: 14px;
+      padding: 4px 12px; font-size: 0.72rem; font-weight: 700;
+      color: #0a246a; text-decoration: none; transition: background 0.15s;
+    }
+    .social-pill:hover { background: rgba(255,255,255,0.92); }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: start; }
+    .about-frame {
+      background: white; border: 2px solid #a0b8d8; border-radius: 6px;
+      padding: 8px; box-shadow: 2px 2px 9px rgba(0,0,80,0.15);
+    }
+    .about-frame img {
+      width: 100%; border-radius: 4px; display: block;
+      min-height: 155px; object-fit: cover;
+      background: linear-gradient(135deg,#c8ddf8,#85b4ee);
+    }
+    .about-desc { font-size: 0.88rem; line-height: 1.82; color: #1a2a4a; margin-bottom: 18px; }
+    .about-stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+    .stat-pill {
+      background: var(--pill-bg); border: 1.5px solid rgba(80,140,220,0.55);
+      border-radius: 16px; padding: 8px 16px; text-align: center;
+      box-shadow: inset 0 1px rgba(255,255,255,0.85), 0 2px 5px rgba(0,0,80,0.15);
+      position: relative; overflow: hidden;
+    }
+    .stat-pill::before { content:''; position:absolute; top:0; left:0; right:0; height:50%; background:rgba(255,255,255,0.32); border-radius:16px 16px 0 0; pointer-events:none; }
+    .stat-n { font-family:'Righteous',cursive; font-size:1.45rem; color:var(--xp-blue); display:block; line-height:1; }
+    .stat-l { font-size:0.58rem; font-weight:800; color:#3a5a9a; text-transform:uppercase; letter-spacing:1px; }
+
+    /* ── SKILLS ── */
+    .skills-list { display: flex; flex-direction: column; gap: 18px; }
+    .skill-row { display: grid; grid-template-columns: 110px 1fr 44px; gap: 12px; align-items: center; }
+    .skill-lbl { font-weight: 800; font-size: 0.83rem; color: #1a2a4a; }
+    .skill-track {
+      height: 15px; background: rgba(255,255,255,0.55);
+      border: 1.5px solid #a0bcd8; border-radius: 10px; overflow: hidden;
+      box-shadow: inset 0 1px 4px rgba(0,0,80,0.1);
+    }
+    .skill-fill {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg,#4a90e2,#80c0ff,#ffffff 68%,#a0d0ff);
+      border-radius: 10px;
+      transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: inset 0 2px rgba(255,255,255,0.65);
+    }
+    .skill-pct { font-size: 0.72rem; font-weight: 800; color: #0a246a; text-align: right; }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(180deg,var(--xp-blue-lt),var(--xp-blue),transparent);
+    }
+    .tl-item { position: relative; margin-bottom: 28px; }
+    .tl-dot {
+      position: absolute; left: -24px; top: 5px; width: 14px; height: 14px;
+      background: var(--pill-bg); border: 2px solid var(--xp-blue-mid); border-radius: 50%;
+      box-shadow: 0 0 9px rgba(74,144,226,0.55);
+    }
+    .tl-date { font-size: 0.67rem; font-weight: 800; color: var(--xp-blue-mid); letter-spacing: 1px; margin-bottom: 3px; }
+    .tl-title { font-size: 0.92rem; font-weight: 800; color: #0a1a3a; margin-bottom: 2px; }
+    .tl-sub { font-size: 0.8rem; color: #4a6a9a; margin-bottom: 7px; }
+    .tl-expand {
+      font-size: 0.68rem; font-weight: 800;
+      background: var(--pill-bg); border: 1px solid rgba(80,140,220,0.5); border-radius: 10px;
+      padding: 3px 10px; cursor: pointer; color: var(--xp-blue);
+      box-shadow: inset 0 1px rgba(255,255,255,0.8); font-family: 'Nunito', sans-serif;
+      transition: background 0.15s;
+    }
+    .tl-expand:hover { background: var(--pill-hover); }
+    .tl-details {
+      display: none; margin-top: 8px;
+      background: rgba(255,255,255,0.6); border: 1px solid #b0cce8; border-radius: 6px;
+      padding: 10px 14px;
+    }
+    .tl-details.open { display: block; }
+    .tl-details li { font-size: 0.8rem; color: #2a3a5a; padding: 3px 0 3px 14px; position: relative; list-style: none; }
+    .tl-details li::before { content:'✦'; position:absolute; left:0; color:var(--xp-blue-lt); font-size:0.58rem; top:5px; }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(268px,1fr)); gap: 16px; }
+    .proj-card {
+      background: rgba(255,255,255,0.62); border: 2px solid #a8c8e8; border-radius: 8px;
+      overflow: hidden; box-shadow: 2px 2px 9px rgba(0,0,80,0.12), inset 0 1px rgba(255,255,255,0.85);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .proj-card:hover { transform: translateY(-3px); box-shadow: 3px 5px 15px rgba(0,0,80,0.22); }
+    .proj-card-hdr { background: var(--xp-titlebar); padding: 5px 10px; display: flex; align-items: center; gap: 6px; }
+    .proj-card-num { font-size: 0.62rem; font-weight: 800; color: rgba(255,255,255,0.65); }
+    .proj-card-tbar { font-size: 0.72rem; font-weight: 800; color: white; flex: 1; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+    .proj-body { padding: 14px; }
+    .proj-title { font-weight: 800; font-size: 0.88rem; color: #0a1a3a; margin-bottom: 6px; }
+    .proj-desc { font-size: 0.78rem; line-height: 1.65; color: #3a4a6a; margin-bottom: 12px; }
+    .proj-links { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* ── CONTACT ── */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 28px; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 14px; }
+    .contact-row { display: flex; align-items: center; gap: 10px; }
+    .contact-icon-pill {
+      width: 36px; height: 36px; background: var(--pill-bg);
+      border: 1.5px solid rgba(80,140,220,0.6); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+      box-shadow: inset 0 1px rgba(255,255,255,0.85), 0 2px 5px rgba(0,0,80,0.15); flex-shrink: 0;
+    }
+    .c-lbl { font-size: 0.6rem; font-weight: 800; color: var(--xp-blue-mid); text-transform: uppercase; letter-spacing: 1px; display: block; }
+    .c-val { font-size: 0.82rem; color: #1a2a4a; font-weight: 600; }
+    .contact-form { display: flex; flex-direction: column; gap: 12px; }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .f-lbl { font-size: 0.62rem; font-weight: 800; color: var(--xp-blue-mid); text-transform: uppercase; letter-spacing: 1px; }
+    .f-input, .f-textarea {
+      background: rgba(255,255,255,0.85); border: 1.5px solid #a0bcd8; border-radius: 6px;
+      padding: 7px 10px; font-family: 'Nunito', sans-serif; font-size: 0.82rem;
+      color: #1a2a4a; outline: none; width: 100%;
+      box-shadow: inset 0 1px 3px rgba(0,0,80,0.07); transition: border-color 0.2s;
+    }
+    .f-input:focus, .f-textarea:focus { border-color: #5a90d0; background: white; }
+    .f-textarea { resize: vertical; min-height: 100px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--xp-taskbar); border-top: 2px solid #6aadff;
+      padding: 20px 24px 90px; text-align: center; position: relative; z-index: 1;
+    }
+    .footer-name {
+      font-family: 'Righteous', cursive; font-size: 1.5rem;
+      background: linear-gradient(135deg,#e0ecff,#90b8f0,#fff,#6090d0);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      filter: drop-shadow(0 1px 4px rgba(0,0,80,0.5)); margin-bottom: 8px;
+    }
+    .footer-links { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; }
+    .footer-links a { font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: white; }
+    .footer-copy { font-size: 0.62rem; color: rgba(255,255,255,0.45); }
+
+    /* ── SCROLL UP ── */
+    #scroll-up {
+      position: fixed; right: 1.5rem; bottom: 56px;
+      background: var(--pill-bg); border: 1.5px solid rgba(80,140,220,0.7); border-radius: 20px;
+      padding: 6px 14px; font-size: 0.72rem; font-weight: 800; color: var(--xp-blue);
+      text-decoration: none; font-family: 'Nunito', sans-serif;
+      box-shadow: inset 0 1px rgba(255,255,255,0.85), 0 2px 7px rgba(0,0,80,0.25);
+      opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 500;
+    }
+    #scroll-up.show { opacity: 1; visibility: visible; }
+    #scroll-up:hover { background: var(--pill-hover); transform: translateY(-2px); }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:720px) {
+      #home { padding: 16px 12px 64px; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-photo-panel { max-width: 200px; margin: 0 auto; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-frame { max-width: 180px; margin: 0 auto; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .desktop-icons { display: none; }
+      .sticker { display: none; }
+      .xp-section { padding: 0 12px; }
+    }
+    @media(max-width:480px) {
+      .skill-row { grid-template-columns: 88px 1fr 36px; gap: 8px; }
+      .about-stats { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SPARKLES -->
+<div class="sparkle-field" id="sparkles"></div>
+
+<!-- TASKBAR -->
+<div class="taskbar">
+  <div class="start-btn"><div class="start-icon"></div>start</div>
+  <div class="tb-icons">
+    <div class="tb-icon" onclick="goTo('home')">🌐</div>
+    <div class="tb-icon" onclick="goTo('portfolio')">📁</div>
+    <div class="tb-icon" onclick="goTo('contact')">✉️</div>
+  </div>
+  <div class="taskbar-clock" id="tb-clock">12:00 PM</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     HERO — DESKTOP
+══════════════════════════════════════ -->
+<section id="home">
+  <div class="desktop-icons">
+    <div class="d-icon" onclick="goTo('about')">
+      <div class="d-icon-img">💻</div>
+      <div class="d-icon-label">My Profile</div>
+    </div>
+    <div class="d-icon" onclick="goTo('portfolio')">
+      <div class="d-icon-img">📂</div>
+      <div class="d-icon-label">Projects</div>
+    </div>
+    <div class="d-icon" onclick="goTo('contact')">
+      <div class="d-icon-img">✉️</div>
+      <div class="d-icon-label">Contact</div>
+    </div>
+    <div class="d-icon">
+      <div class="d-icon-img">🗑️</div>
+      <div class="d-icon-label">Recycle Bin</div>
+    </div>
+  </div>
+
+  <div class="sticker" style="top:10%;right:7%;font-size:2.4rem;color:#ffd700;--rot:-12deg;--del:0s;">✦</div>
+  <div class="sticker" style="top:72%;right:13%;font-size:1.5rem;color:#aaddff;--rot:8deg;--del:1s;">★</div>
+  <div class="sticker" style="top:22%;right:20%;font-size:1rem;color:white;--rot:0deg;--del:2s;">✧</div>
+  <div class="sticker" style="top:82%;right:4%;font-size:1.9rem;color:#ffd700;--rot:-5deg;--del:0.5s;">✦</div>
+  <div class="sticker" style="top:55%;right:3%;font-size:0.9rem;color:white;--rot:15deg;--del:1.5s;">✧</div>
+
+  <div class="xp-window" style="width:100%;max-width:840px;position:relative;z-index:10;">
+    <div class="xp-titlebar">
+      <span class="xp-title-icon">🌐</span>
+      <span class="xp-title-text">Sihle Mchunu — Portfolio — Microsoft Internet Explorer</span>
+      <div class="xp-win-btns">
+        <div class="xp-wb min">_</div>
+        <div class="xp-wb max">□</div>
+        <div class="xp-wb cls">✕</div>
+      </div>
+    </div>
+    <div class="xp-addrbar">
+      <span class="xp-addr-lbl">Address</span>
+      <input class="xp-addr-input" value="http://www.sihleMchunu.co.za/portfolio/index.html" readonly/>
+      <div class="xp-addr-go">Go</div>
+    </div>
+    <div class="xp-body">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-photo-panel">
+            <img src="assets/images/IMG-ME.jpg" alt="Sihle Mchunu"
+              onerror="this.style.minHeight='180px';this.style.background='linear-gradient(135deg,#c8ddf8,#85b4ee)';this.removeAttribute('src')"/>
+            <div class="photo-cap">Sihle Mchunu — 2025</div>
+            <div class="online-badge">
+              <div class="online-dot"></div>
+              <span class="online-txt">Online</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-text">
+          <div class="subtitle-pill">✦ Software Developer Student</div>
+          <h1 class="chrome-h">Sihle<br>Mchunu</h1>
+          <div class="hero-desc-box">
+            A second-year student at <strong>IT Certification Academy</strong>, South Africa — driven by curiosity about how technology can improve outcomes for underprivileged communities.
+          </div>
+          <div class="hero-btns">
+            <a href="#contact" class="pill-btn">✉ Contact Me</a>
+            <a href="assets/Sakhile Sihle Mchunu.pdf" download class="pill-btn">⬇ Download CV</a>
+          </div>
+          <div class="hero-socials">
+            <a href="https://www.linkedin.com/in/sihle-mchunu-s1/" target="_blank" class="social-pill">🔗 LinkedIn</a>
+            <a href="https://github.com/SihleMchunu" target="_blank" class="social-pill">🐱 GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     ABOUT
+══════════════════════════════════════ -->
+<div class="xp-section" id="about">
+  <div class="xp-window">
+    <div class="sec-tbar">
+      <span class="sec-tbar-icon">👤</span>
+      <span class="sec-tbar-text">About Me — My Profile</span>
+      <div class="xp-win-btns">
+        <div class="xp-wb min sm">_</div>
+        <div class="xp-wb cls sm">✕</div>
+      </div>
+    </div>
+    <div class="sec-body">
+      <div class="sec-heading">About Me <span class="sec-badge">// 01</span></div>
+      <div class="about-grid">
+        <div class="about-frame">
+          <img src="assets/images/IMG-20250806-WA0001.jpg" alt="Sihle"
+            onerror="this.style.minHeight='155px';this.style.background='linear-gradient(135deg,#c8ddf8,#85b4ee)';this.removeAttribute('src')"/>
+        </div>
+        <div>
+          <p class="about-desc">I am a second-year Software Development student in a two-year program with a strong passion for building interactive projects, collaborating with teams, and gaining valuable industry experience. I am driven by a curiosity about how technology shapes everyday life and how it can be used to improve opportunities and outcomes for underprivileged communities.</p>
+          <div class="about-stats">
+            <div class="stat-pill"><span class="stat-n">29</span><span class="stat-l">APS Score</span></div>
+            <div class="stat-pill"><span class="stat-n">2+</span><span class="stat-l">Projects</span></div>
+            <div class="stat-pill"><span class="stat-n">2+</span><span class="stat-l">Yrs Exp</span></div>
+          </div>
+          <a href="assets/Sakhile Sihle Mchunu.pdf" download class="pill-btn">⬇ Download CV</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SKILLS
+══════════════════════════════════════ -->
+<div class="xp-section" id="skills">
+  <div class="xp-window">
+    <div class="sec-tbar">
+      <span class="sec-tbar-icon">⚙️</span>
+      <span class="sec-tbar-text">Skills — Beginner Level</span>
+      <div class="xp-win-btns">
+        <div class="xp-wb min sm">_</div>
+        <div class="xp-wb cls sm">✕</div>
+      </div>
+    </div>
+    <div class="sec-body">
+      <div class="sec-heading">My Skills <span class="sec-badge">// 02</span></div>
+      <div class="skills-list">
+        <div class="skill-row"><span class="skill-lbl">Python</span><div class="skill-track"><div class="skill-fill" data-width="90%"></div></div><span class="skill-pct">90%</span></div>
+        <div class="skill-row"><span class="skill-lbl">CSS</span><div class="skill-track"><div class="skill-fill" data-width="85%"></div></div><span class="skill-pct">85%</span></div>
+        <div class="skill-row"><span class="skill-lbl">C#</span><div class="skill-track"><div class="skill-fill" data-width="80%"></div></div><span class="skill-pct">80%</span></div>
+        <div class="skill-row"><span class="skill-lbl">HTML</span><div class="skill-track"><div class="skill-fill" data-width="70%"></div></div><span class="skill-pct">70%</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     EDUCATION
+══════════════════════════════════════ -->
+<div class="xp-section" id="qualification">
+  <div class="xp-window">
+    <div class="sec-tbar">
+      <span class="sec-tbar-icon">🎓</span>
+      <span class="sec-tbar-text">Education — My Journey</span>
+      <div class="xp-win-btns">
+        <div class="xp-wb min sm">_</div>
+        <div class="xp-wb cls sm">✕</div>
+      </div>
+    </div>
+    <div class="sec-body">
+      <div class="sec-heading">Education <span class="sec-badge">// 03</span></div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">2020 — 2024</div>
+          <div class="tl-title">M.L. Sultan Secondary School</div>
+          <div class="tl-sub">NSC — National Senior Certificate</div>
+          <button class="tl-expand" onclick="toggleTl(this)">View Details ▾</button>
+          <div class="tl-details"><ul>
+            <li>Subjects: Computer Applications Technology, Maths Literacy, English, History, Business Studies, IsiZulu</li>
+            <li>APS Score of 29</li>
+            <li>Achieved Bachelor's Degree pass</li>
+            <li>Participated in many school events and programs</li>
+          </ul></div>
+        </div>
+        
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">2025 — Present</div>
+          <div class="tl-title">IT Certification Academy</div>
+          <div class="tl-sub">Software Development — College Diploma</div>
+          <button class="tl-expand" onclick="toggleTl(this)">View Details ▾</button>
+          <div class="tl-details"><ul>
+            <li>Core subjects: Software Development, Web Development, Database Management, Computer Systems</li>
+            <li>Passed all modules with an 80% average</li>
+            <li>Student representative for the Software Development class</li>
+          </ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PROJECTS
+══════════════════════════════════════ -->
+<div class="xp-section" id="portfolio">
+  <div class="xp-window">
+    <div class="sec-tbar">
+      <span class="sec-tbar-icon">📂</span>
+      <span class="sec-tbar-text">Projects — Most Recent Work</span>
+      <div class="xp-win-btns">
+        <div class="xp-wb min sm">_</div>
+        <div class="xp-wb cls sm">✕</div>
+      </div>
+    </div>
+    <div class="sec-body">
+      <div class="sec-heading">Projects <span class="sec-badge">// 04</span></div>
+      <div class="projects-grid">
+        <div class="proj-card">
+          <div class="proj-card-hdr"><span class="proj-card-num">01</span><span class="proj-card-tbar">DarkSurfer Extension</span></div>
+          <div class="proj-body">
+            <div class="proj-title">DarkSurfer Extension</div>
+            <p class="proj-desc">Browser extension using Language Models (RoBERTa, BERT, XLNet) to detect and eliminate dark patterns on websites in real-time.</p>
+            <div class="proj-links">
+              <a href="https://github.com/Venkateeshh/DarkSurfer-Extension" class="pill-btn sm" target="_blank">GitHub</a>
+              <a href="https://darksurfer.streamlit.app/" class="pill-btn sm" target="_blank">Live</a>
+            </div>
+          </div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-card-hdr"><span class="proj-card-num">02</span><span class="proj-card-tbar">Weather Forecast App</span></div>
+          <div class="proj-body">
+            <div class="proj-title">Weather Forecast App</div>
+            <p class="proj-desc">Responsive weather site with live updates, interactive maps, hourly/daily forecasts and location-based insights.</p>
+            <div class="proj-links">
+              <a href="https://github.com/Venkateeshh/Weather-App" class="pill-btn sm" target="_blank">GitHub</a>
+              <a href="https://venkateeshh.github.io/Weather-App/" class="pill-btn sm" target="_blank">Live</a>
+            </div>
+          </div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-card-hdr"><span class="proj-card-num">03</span><span class="proj-card-tbar">Spotify Clone</span></div>
+          <div class="proj-body">
+            <div class="proj-title">Spotify Clone</div>
+            <p class="proj-desc">Full Spotify interface replica — browse, search, play songs and create playlists. Built with HTML, CSS and JavaScript.</p>
+            <div class="proj-links">
+              <a href="https://github.com/Venkateeshh/Spotify-Clone" class="pill-btn sm" target="_blank">GitHub</a>
+              <a href="https://venkateeshh.github.io/Spotify-Clone/" class="pill-btn sm" target="_blank">Live</a>
+            </div>
+          </div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-card-hdr"><span class="proj-card-num">04</span><span class="proj-card-tbar">Language Translator</span></div>
+          <div class="proj-body">
+            <div class="proj-title">Language Translator</div>
+            <p class="proj-desc">Google Translate API-powered web app converting text between multiple languages with a clean responsive interface.</p>
+            <div class="proj-links">
+              <a href="https://github.com/Venkateeshh/Js-Language-Translator" class="pill-btn sm" target="_blank">GitHub</a>
+              <a href="https://venkateeshh.github.io/Js-Language-Translator/" class="pill-btn sm" target="_blank">Live</a>
+            </div>
+          </div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-card-hdr"><span class="proj-card-num">05</span><span class="proj-card-tbar">Sorting Visualizer</span></div>
+          <div class="proj-body">
+            <div class="proj-title">Sorting Visualizer</div>
+            <p class="proj-desc">Java GUI app that visually demonstrates sorting algorithms step-by-step — an educational tool for understanding algorithm design.</p>
+            <div class="proj-links">
+              <a href="https://github.com/Venkateeshh/Sorting-Visualizer" class="pill-btn sm" target="_blank">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     CONTACT
+══════════════════════════════════════ -->
+<div class="xp-section" id="contact">
+  <div class="xp-window">
+    <div class="sec-tbar">
+      <span class="sec-tbar-icon">✉️</span>
+      <span class="sec-tbar-text">Contact Me — Get In Touch</span>
+      <div class="xp-win-btns">
+        <div class="xp-wb min sm">_</div>
+        <div class="xp-wb cls sm">✕</div>
+      </div>
+    </div>
+    <div class="sec-body">
+      <div class="sec-heading">Contact Me <span class="sec-badge">// 05</span></div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-row"><div class="contact-icon-pill">📞</div><div><span class="c-lbl">Phone</span><span class="c-val">+27 636 224 3314</span></div></div>
+          <div class="contact-row"><div class="contact-icon-pill">📧</div><div><span class="c-lbl">Email</span><span class="c-val">sihlemchunu78@gmail.com</span></div></div>
+          <div class="contact-row"><div class="contact-icon-pill">📍</div><div><span class="c-lbl">Location</span><span class="c-val">Pitermaritsburg, KZN, South Africa</span></div></div>
+          <div class="contact-row"><div class="contact-icon-pill">🔗</div><div><span class="c-lbl">LinkedIn</span><a href="https://www.linkedin.com/in/sihle-mchunu-s1/" target="_blank" class="c-val" style="color:#1a5bbf;">sihle-mchunu-s1</a></div></div>
+        </div>
+        <form class="contact-form" onsubmit="handleForm(event)">
+          <div class="form-row">
+            <div class="form-group"><label class="f-lbl">Name</label><input type="text" name="name" class="f-input" placeholder="Your name" required/></div>
+            <div class="form-group"><label class="f-lbl">Email</label><input type="email" name="email" class="f-input" placeholder="your@email.com" required/></div>
+          </div>
+          <div class="form-group"><label class="f-lbl">Message</label><textarea name="message" class="f-textarea" placeholder="Your message..."></textarea></div>
+          <button type="submit" class="pill-btn" style="width:fit-content;">✉ Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Sihle Mchunu</div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#qualification">Education</a>
+    <a href="#portfolio">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 Sihle Mchunu — All rights reserved</div>
+</footer>
+
+<a href="#home" id="scroll-up">▲ Top</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  // Clock
+  function tick() {
+    const n = new Date(), h = n.getHours() % 12 || 12;
+    const m = String(n.getMinutes()).padStart(2,'0');
+    document.getElementById('tb-clock').textContent = h + ':' + m + (n.getHours() >= 12 ? ' PM' : ' AM');
+  }
+  tick(); setInterval(tick, 10000);
+
+  // Smooth scroll
+  function goTo(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+
+  // Sparkles
+  const sf = document.getElementById('sparkles');
+  const cols = ['#ffd700','#aaddff','#ffffff','#c8e8ff'];
+  for (let i = 0; i < 30; i++) {
+    const s = document.createElement('div');
+    const c = cols[i % cols.length];
+    const size = i % 3 === 0 ? 13 : i % 3 === 1 ? 9 : 6;
+    s.className = 'sp';
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      background:${c};
+      --dur:${2.5+Math.random()*4}s;
+      --del:${Math.random()*6}s;
+    `;
+    sf.appendChild(s);
+  }
+
+  // Skill bars — fire immediately on page load (no observer needed)
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.skill-fill').forEach(b => {
+      setTimeout(() => { b.style.width = b.getAttribute('data-width'); }, 400);
+    });
+  });
+
+  // Timeline expand
+  function toggleTl(btn) {
+    const d = btn.nextElementSibling;
+    d.classList.toggle('open');
+    btn.textContent = d.classList.contains('open') ? 'Hide Details ▴' : 'View Details ▾';
+  }
+
+  // Scroll up button
+  window.addEventListener('scroll', () => {
+    document.getElementById('scroll-up').classList.toggle('show', window.scrollY > 400);
+  });
+  // Contact form
+  
+
+ 
+  emailjs.init("k9X4r49V2QKeeOpuZ");
+
+  function handleForm(e) {
+  e.preventDefault();
+
+  emailjs.sendForm(
+    "service_dla06kj",
+    "template_ut7x8ec",
+    e.target
+  ).then(function() {
+
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.textContent = "✓ Sent!";
+    btn.style.background = "linear-gradient(180deg,#aaffa0,#55cc44)";
+
+    setTimeout(() => {
+      btn.textContent = "✉ Send Message";
+      btn.style.background = "";
+      e.target.reset();
+    }, 3000);
+
+  }, function(error) {
+    alert("Failed to send message. Please try again.");
+  });
+}
+
+</script>
+</body>
+</html>
